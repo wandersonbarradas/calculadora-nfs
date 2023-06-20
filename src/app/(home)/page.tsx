@@ -3,6 +3,7 @@ import Api from "@/libs/api";
 
 export default async function Home() {
     const data = await Api.getIrrfTable();
+    console.log("🚀 ~ file: page.tsx:6 ~ Home ~ data:", data);
     return (
         <>
             <div className="mt-8">
