@@ -7,7 +7,7 @@ export const checkSession = async (
     const session = await getServerSession(authOptions);
     if (!session) {
         redirect(
-            "/api/auth/signin?error=SessionRequired&callbackUrl=http%3A%2F%2Flocalhost%3A3000%2Fconfiguracoes",
+            "/api/auth/signin?error=SessionRequired&callbackUrl=https://calculadora-nfs.vercel.app/configuracoes",
         );
     }
     return session;
