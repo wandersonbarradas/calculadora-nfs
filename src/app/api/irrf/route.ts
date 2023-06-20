@@ -20,14 +20,15 @@ export async function GET() {
 export async function POST(request: Request) {
     const session = await checkSession(authOptions);
     const res: NewIrrf = await request.json();
-    const newIrrfTable = await Api.addIrrfTable(res, session.user.id).catch(
-        (error) => {
-            const body = JSON.stringify({ error: error });
-            return new Response(body, {
-                status: 500,
-            });
-        },
-    );
+    const newIrrfTable = await Api.addIrrfTable(
+        res,
+        parseInt(session.user.id),
+    ).catch((error) => {
+        const body = JSON.stringify({ error: error });
+        return new Response(body, {
+            status: 500,
+        });
+    });
     if (!newIrrfTable) {
         const body = JSON.stringify({
             error: "O servidor encontrou um erro interno e não pôde atender à requisição.",

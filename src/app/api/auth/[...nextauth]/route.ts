@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
 
                 return {
                     email: user.email,
-                    id: user.id,
+                    id: user.id.toString(),
                     name: user.name,
                 };
             },
