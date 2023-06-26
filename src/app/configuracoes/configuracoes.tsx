@@ -31,11 +31,7 @@ const Configuracoes = ({ irrfTable }: Props) => {
             },
             body: JSON.stringify(item),
         });
-        const result = await response.json();
-        console.log(
-            "🚀 ~ file: configuracoes.tsx:33 ~ handleNewIrrf ~ result:",
-            result,
-        );
+        const result = (await response.json()) as { response: Irrf };
         setIrrfItems([...irrfItems, result.response]);
     };
 
@@ -52,7 +48,7 @@ const Configuracoes = ({ irrfTable }: Props) => {
             },
             body: JSON.stringify(item),
         });
-        const result = await response.json();
+        const result = (await response.json()) as { response: Irrf };
         setIrrfItems([
             ...irrfItems.filter((i) => i.id !== result.response.id),
             result.response,
@@ -67,11 +63,7 @@ const Configuracoes = ({ irrfTable }: Props) => {
         const response = await fetch(`/api/irrf/${id}`, {
             method: "DELETE",
         });
-        const result = await response.json();
-        console.log(
-            "🚀 ~ file: configuracoes.tsx:67 ~ deleteIrrfItem ~ result:",
-            result,
-        );
+        const result = (await response.json()) as { response: string };
         if (response.ok) {
             alert(result.response);
             setIrrfItems([...irrfItems.filter((i) => i.id !== id)]);
