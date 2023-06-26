@@ -16,4 +16,6 @@ const Pagina = async () => {
     }
 };
 
+export const revalidate = 60;
+
 export default Pagina;
