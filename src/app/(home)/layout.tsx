@@ -9,6 +9,9 @@ const poppins = Poppins({
 
 export const metadata = {
     title: "Calculadora",
+    icons: {
+        icon: "/images/logo.png",
+    },
 };
 
 export default function RootLayout({
