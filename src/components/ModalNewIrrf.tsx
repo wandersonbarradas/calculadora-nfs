@@ -10,6 +10,13 @@ type Props = {
     item?: Irrf | null;
 };
 
+type i = {
+    initial_limit: string;
+    final_limit: string;
+    percentage: string;
+    deduction: string;
+};
+
 export const ModalNewIrrf = ({
     state,
     setState,
@@ -17,19 +24,23 @@ export const ModalNewIrrf = ({
     item,
     update,
 }: Props) => {
-    const [opacity, setOpacity] = useState(false);
-    const [irrfItem, setIrrfItem] = useState<NewIrrf | Irrf>({
-        deduction: 0,
-        final_limit: 0,
-        initial_limit: 0,
-        percentage: 0,
+    const [stateIrrf, setStateIrrf] = useState<i>({
+        deduction: "0",
+        final_limit: "0",
+        initial_limit: "0",
+        percentage: "0",
     });
+    const [opacity, setOpacity] = useState(false);
     const [disabled, setDisabled] = useState(false);
 
     useEffect(() => {
-        console.log(item);
         if (item) {
-            setIrrfItem(item);
+            setStateIrrf({
+                deduction: item.deduction.toString(),
+                final_limit: item.final_limit.toString(),
+                initial_limit: item.initial_limit.toString(),
+                percentage: item.percentage.toString(),
+            });
         }
     }, [item]);
 
@@ -48,21 +59,28 @@ export const ModalNewIrrf = ({
 
     const handleSubmit = async () => {
         setDisabled(true);
-        Object.entries(irrfItem).forEach((item) => {
+        let irrf: NewIrrf = {
+            deduction: parseFloat(stateIrrf.deduction),
+            final_limit: parseFloat(stateIrrf.final_limit),
+            initial_limit: parseFloat(stateIrrf.initial_limit),
+            percentage: parseFloat(stateIrrf.percentage),
+        };
+        Object.entries(irrf).forEach((item) => {
             if (isNaN(item[1])) {
                 alert("Dados não estão preenchidos corretamente");
                 setDisabled(false);
                 return;
             }
         });
-        if (irrfItem.final_limit <= 0) {
+        if (irrf.final_limit <= 0) {
             alert("Limite final não pode ser 0!");
             return;
         }
+
         if (item && item.id) {
-            await update(irrfItem as Irrf);
+            await update({ ...irrf, id: item.id });
         } else {
-            await submit(irrfItem);
+            await submit(irrf);
         }
 
         handleModal();
@@ -83,64 +101,39 @@ export const ModalNewIrrf = ({
                     <InputGroup
                         inputType="number"
                         label="Limite inicial"
-                        inputValue={irrfItem.initial_limit.toString()}
+                        inputValue={stateIrrf.initial_limit}
                         setInputValue={(e) =>
-                            setIrrfItem(
-                                parseFloat(e) >= 0 || e === ""
-                                    ? {
-                                          ...irrfItem,
-                                          initial_limit: parseFloat(e),
-                                      }
-                                    : irrfItem,
-                            )
+                            setStateIrrf({
+                                ...stateIrrf,
+                                initial_limit: e,
+                            })
                         }
                         disabled={disabled}
                     />
                     <InputGroup
                         inputType="number"
                         label="Limite final"
-                        inputValue={irrfItem.final_limit.toString()}
+                        inputValue={stateIrrf.final_limit}
                         setInputValue={(e) =>
-                            setIrrfItem(
-                                parseFloat(e) >= 0 || e === ""
-                                    ? {
-                                          ...irrfItem,
-                                          final_limit: parseFloat(e),
-                                      }
-                                    : irrfItem,
-                            )
+                            setStateIrrf({ ...stateIrrf, final_limit: e })
                         }
                         disabled={disabled}
                     />
                     <InputGroup
                         inputType="number"
                         label="Valor (%)"
-                        inputValue={irrfItem.percentage.toString()}
+                        inputValue={stateIrrf.percentage}
                         setInputValue={(e) =>
-                            setIrrfItem(
-                                parseFloat(e) >= 0 || e === ""
-                                    ? {
-                                          ...irrfItem,
-                                          percentage: parseFloat(e),
-                                      }
-                                    : irrfItem,
-                            )
+                            setStateIrrf({ ...stateIrrf, percentage: e })
                         }
                         disabled={disabled}
                     />
                     <InputGroup
                         inputType="number"
                         label="Dedução"
-                        inputValue={irrfItem.deduction.toString()}
+                        inputValue={stateIrrf.deduction}
                         setInputValue={(e) =>
-                            setIrrfItem(
-                                parseFloat(e) >= 0 || e === ""
-                                    ? {
-                                          ...irrfItem,
-                                          deduction: parseFloat(e),
-                                      }
-                                    : irrfItem,
-                            )
+                            setStateIrrf({ ...stateIrrf, deduction: e })
                         }
                         disabled={disabled}
                     />

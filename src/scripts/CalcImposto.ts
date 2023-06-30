@@ -2,7 +2,6 @@ import { Irrf, NewIrrf } from "@/types/IrrfItem";
 import { Nfs } from "@/types/Nfs";
 
 export const calcular = (value: number, alIss: number, TableIrrf: Irrf[]) => {
-    console.log(TableIrrf);
     const data: Nfs = {
         alIrrf: 0,
         deductionIrrf: 0,

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
 import path from "path";
 import { existsSync } from "fs";
 import fs from "fs/promises";

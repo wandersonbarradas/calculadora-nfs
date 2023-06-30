@@ -10,8 +10,8 @@ type Props = {
 };
 
 export const Calculator = ({ dataIrrf }: Props) => {
-    const [value, setValue] = useState(0);
-    const [alIss, setAlIss] = useState(3);
+    const [value, setValue] = useState("");
+    const [alIss, setAlIss] = useState("3");
     const [data, setData] = useState<Nfs>({
         alIrrf: 0,
         deductionIrrf: 0,
@@ -34,14 +34,26 @@ export const Calculator = ({ dataIrrf }: Props) => {
     const handleCalc = () => {
         setValueError(false);
         setAlIssError(false);
-        if (value <= 0) {
+        if (
+            parseFloat(value) <= 0 ||
+            isNaN(parseFloat(value)) ||
+            value === ""
+        ) {
             setValueError(true);
         }
-        if (alIss <= 0) {
+        if (
+            parseFloat(alIss) <= 0 ||
+            isNaN(parseFloat(alIss)) ||
+            alIss === ""
+        ) {
             setAlIssError(true);
         }
         if (!valueError && !alIssError) {
-            const result = calcular(value, alIss, dataIrrf);
+            const result = calcular(
+                parseFloat(value),
+                parseFloat(alIss),
+                dataIrrf,
+            );
             if (result) {
                 setData(result);
             }
@@ -54,15 +66,15 @@ export const Calculator = ({ dataIrrf }: Props) => {
                 <InputGroup
                     label="Valor liquido"
                     inputType="number"
-                    inputValue={value.toString()}
-                    setInputValue={(v) => setValue(Number(v))}
+                    inputValue={value}
+                    setInputValue={(v) => setValue(v)}
                     error={valueError}
                 />
                 <InputGroup
                     label="Aliquota ISS"
                     inputType="number"
-                    inputValue={alIss.toString()}
-                    setInputValue={(v) => setAlIss(Number(v))}
+                    inputValue={alIss}
+                    setInputValue={(v) => setAlIss(v)}
                     error={alIssError}
                 />
                 <InputGroup
