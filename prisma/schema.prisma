@@ -21,7 +21,7 @@ model User {
   active            Boolean     @default(true)
   irrfTable         IrrfTable[]
 
-  @@map("users")
+  @@map("users_irrf")
 }
 
 model IrrfTable {
